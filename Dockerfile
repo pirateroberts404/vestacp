@@ -101,12 +101,12 @@ RUN cd /tmp \
 # begin install vesta
     && bash /tmp/vst-install-ubuntu.sh \
         --nginx yes --apache yes --phpfpm no \
-        --vsftpd no --proftpd no \
+        --vsftpd no --proftpd yes \
         --named yes --exim yes --dovecot yes \
         --spamassassin yes --clamav yes \
         --iptables yes --fail2ban yes \
         --mysql yes --postgresql yes --remi yes \
-        --quota no --password MakeItSo18 \
+        --quota yes --password MakeItSo18 \
         -y no -f \
 
 # begin apache stuff
@@ -242,17 +242,17 @@ RUN cd /tmp \
     && sed -i -e "s/^#PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config \
 
 # initialize ips for docker support
-    && cd /usr/local/vesta/data/ips && mv * 127.0.0.1 \
+    && cd /usr/local/vesta/data/ips && mv * 142.93.29.205 \
     && cd /etc/apache2/conf.d \
-    && sed -i -e "s/172.*.*.*:80/127.0.0.1:80/g" * \
-    && sed -i -e "s/172.*.*.*:8443/127.0.0.1:8443/g" * \
+    && sed -i -e "s/172.*.*.*:80/142.93.29.205:80/g" * \
+    && sed -i -e "s/172.*.*.*:8443/142.93.29.205:8443/g" * \
     && cd /etc/nginx/conf.d \
-    && sed -i -e "s/172.*.*.*:80/127.0.0.1:80/g" * \
-    && sed -i -e "s/172.*.*.*:8080/127.0.0.1:8080/g" * \
-    && mv 172.*.*.*.conf 127.0.0.1.conf \
+    && sed -i -e "s/172.*.*.*:80/142.93.29.205:80/g" * \
+    && sed -i -e "s/172.*.*.*:8080/142.93.29.205:8080/g" * \
+    && mv 172.*.*.*.conf 142.93.29.205.conf \
     && cd /home/admin/conf/web \
     && sed -i -e "s/172.*.*.*:80;/80;/g" * \
-    && sed -i -e "s/172.*.*.*:8080/127.0.0.1:8080/g" * \
+    && sed -i -e "s/172.*.*.*:8080/142.93.29.205:8080/g" * \
 
     && cd /tmp \
 
